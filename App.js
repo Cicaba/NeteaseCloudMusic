@@ -7,8 +7,11 @@
  */
 
 import React, {Component} from 'react';
+import {Actions} from "react-native-router-flux"
 import {Platform, StyleSheet, Text,StatusBar, View} from 'react-native';
-import { Button ,Header } from 'react-native-elements'
+import Search from "./Components/search";
+import UserMusic from "./Components/UserMusic";
+
 //测试平台
 const instructions = Platform.select({
   ios: '你好我是苹果设备!',
@@ -27,13 +30,22 @@ export default class App extends Component {
     this.setState({text:"明天你好!我在开发yayaya!"})
   }
   changeMenu(n){
-    this.setState({headerState:n})
+    if(n!=this.state.headerState){
+      this.setState({headerState:n},()=>{
+        if(this.state.headerState==5){
+          Actions.Search()
+        }else if(this.state.headerState==2){
+          Actions.UserMusic()
+        }
+      })
+    }
   }
   render() {
     return (
+
       <View style={styles.container}>
         {/*导航栏颜色*/}
-        <StatusBar backgroundColor={'#ff1a21'}></StatusBar>
+        <StatusBar backgroundColor={'rgb(255,70,0)'}></StatusBar>
         {/*头部导航*/}
         <View style={styles.header}>
           <View style={{width:"10%"}}>
@@ -45,7 +57,7 @@ export default class App extends Component {
             <Text onPress={()=>{this.changeMenu(4)}} style={this.state.headerState==4 ? styles.selectIcon : styles.headerIcon}>&#xe801;</Text>
           </View>
           <View style={{width:"10%"}}>
-            <Text onPress={()=>{this.changeMenu(5)}} style={this.state.headerState==5 ? styles.selectIcon : styles.headerIcon}>&#xe800;</Text>
+            <Text onPress={()=>{this.changeMenu(5)}} style={this.state.headerState==5 ? styles.selectIcon : styles.headerIcon}>&#xf50d;</Text>
           </View>
         </View>
         <Text>{this.state.headerState}</Text>
@@ -56,7 +68,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     flexDirection:"row",
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
     paddingRight:20,
     height:50,
     width:"100%",
-    backgroundColor:"#ff1a21"
+    backgroundColor:"rgb(255,70,0)"
   },
   headerCenter:{
     width:"80%",
